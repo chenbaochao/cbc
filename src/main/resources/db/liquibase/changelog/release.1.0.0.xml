@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Shanghai Zhenhui Information Technology Co,. ltd.
+  ~ All rights are reserved.
+  -->
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql,oracle"/>
+    <changeSet id="201706051428003" author="baochao.chen">
+        <createTable tableName="atl_department">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints
+                        nullable="false"
+                        primaryKey="true"
+                        primaryKeyName="pk_atl_Department_id"/>
+            </column>
+            <column name="department_name" type="varchar(250)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="idx_uq_name"/>
+            </column>
+            <column name="code" type="varchar(250)">
+            </column>
+            <column name="department_status" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="atl_user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints
+                        nullable="false"
+                        primaryKey="true"
+                        primaryKeyName="pk_atl_user_id"/>
+            </column>
+            <column name="department_id " type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_department_id" references="atl_department(id)"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="idx_uq_username"/>
+            </column>
+            <column name="password" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(100)">
+            </column>
+        </createTable>
+      <!--  <loadData encoding="UTF-8"
+                  file="db/liquibase/data/release.1.0.0/security_policy.csv"
+                  separator=";"
+                  tableName="atl_security_policy">
+            <column name="is_require_number" type="boolean"/>
+            <column name="is_require_mix_case" type="boolean"/>
+            <column name="is_require_symbol" type="boolean"/>
+        </loadData>-->
+    </changeSet>
+
+</databaseChangeLog>
